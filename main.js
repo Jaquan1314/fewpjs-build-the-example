@@ -3,9 +3,29 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+const modal = document.querySelector("#modal")
+modal.className = "hidden"
 
-
-
+document.body.addEventListener ('click', event => {
+  if (event.target.matches('.like-glyph') && !event.target.matches('.activated-heart')) {
+    const heart = event.target
+    mimicServerCall()
+    .then(obj => {
+      heart.textContent = FULL_HEART
+      heart.classList.add('activated-heart')
+    })
+    .catch(err => {
+      modal.classList.toggle('hidden')
+      setTimeout(() => {
+        modal.classList.toggle('hidden')
+      }, 5000)
+    })
+  } else if (event.target.textContent == FULL_HEART) {
+    const heart = event.target
+    heart.classList.toggle('activated-heart')
+    heart.textContent = EMPTY_HEART
+  }
+})
 
 //------------------------------------------------------------------------------
 // Ignore after this point. Used only for demo purposes
